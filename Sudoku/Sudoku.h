@@ -2,7 +2,11 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_Sudoku.h"
-#include "qpushbutton.h"
+#include <QPushbutton>
+#include <QString>
+#include "Enums.h"
+#include "Scene.h"
+
 
 class Sudoku : public QMainWindow
 {
@@ -14,7 +18,7 @@ public:
 
     Sudoku(QWidget *parent = nullptr);
     ~Sudoku();
-    void Create(int n);
+    void Create(Type type);
     void InitUI();
 
 public slots:
@@ -24,6 +28,14 @@ public slots:
 private:
     Ui::SudokuClass ui;
     QPushButton _btns[_ROW_NUM][_COLUMN_NUM];
-    int _nums[_ROW_NUM][_COLUMN_NUM];
+    QPushButton _btnNums[10];
+    QString _btnBaseStyles[_ROW_NUM][_COLUMN_NUM];
+
+    Scene scene;
+    int _numSet;
+    int _currentRow;
+    int _currentColumn;
+
+    void AddStyle(QWidget& widget, const QString style);
 
 };
