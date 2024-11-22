@@ -4,6 +4,7 @@ Sudoku::Sudoku(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
+    scene->InitPattern();
     InitUI();
 }
 

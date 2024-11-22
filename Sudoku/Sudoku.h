@@ -31,7 +31,7 @@ private:
     QPushButton _btnNums[10];
     QString _btnBaseStyles[_ROW_NUM][_COLUMN_NUM];
 
-    Scene scene;
+    Scene* scene;
     int _numSet;
     int _currentRow;
     int _currentColumn;
