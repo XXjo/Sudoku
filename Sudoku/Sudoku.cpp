@@ -5,6 +5,7 @@ Sudoku::Sudoku(QWidget *parent)
 {
     ui.setupUi(this);
     scene->InitPattern();
+    scene->Create();
     InitUI();
 }
 
@@ -55,7 +56,7 @@ void Sudoku::InitUI() {
     }
 #pragma endregion
 #pragma region init num ui
-    for (int i = 0; i < 10; i++) {
+    for (int i = 1; i < 10; i++) {
         _btnNums[i].setText(QString::number(i));
         _btnNums[i].setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         _btnNums[i].setStyleSheet(R"(
@@ -70,7 +71,7 @@ void Sudoku::InitUI() {
             QString style = "QPushButton{border-right:1px solid rgb(81,80,76)}";
             this->AddStyle(_btnNums[i], style);
         }
-        if (i == 0) {
+        if (i == 1) {
             QString style = "QPushButton{border-left:1px solid rgb(81,80,76)}";
             this->AddStyle(_btnNums[i], style);
         }

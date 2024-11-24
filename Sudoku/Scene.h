@@ -1,7 +1,10 @@
 #pragma once
 #include <vector>
+#include <unordered_map>
 #include <string>
 #include "Block.h"
+#include "Utils.inl"
+
 using namespace std;
 
 
@@ -16,8 +19,8 @@ public:
 
 private:
 	int _nums[81];
-	Block _rowBlock[9];
-	Block _columnBlock[9];
+	Block _rowBlock[MAX_COUNT];
+	Block _columnBlock[MAX_COUNT];
 	Block _cellBlock[3][3];
 	
 };
