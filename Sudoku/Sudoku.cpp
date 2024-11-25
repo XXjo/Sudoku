@@ -68,6 +68,14 @@ void Sudoku::InitUI() {
             connect(&_btns[row][col], &QPushButton::clicked, this, [=]() {this->OnCellClicked(row, col); });
         }
     }
+
+    for (int row = 0; row < _ROW_NUM; row++) {
+        ui.gridLayout->setRowStretch(row, 1);
+    }
+
+    for (int col = 0; col < _COLUMN_NUM; col++) {
+        ui.gridLayout->setColumnStretch(col, 1);
+    }
 #pragma endregion
 #pragma region init num ui
     for (int i = 1; i < 10; i++) {
