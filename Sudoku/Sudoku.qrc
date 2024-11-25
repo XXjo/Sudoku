@@ -1,4 +1,6 @@
 <RCC>
-    <qresource prefix="Sudoku">
+    <qresource prefix="/Sudoku"/>
+    <qresource prefix="/">
+        <file>images/earse.png</file>
     </qresource>
 </RCC>

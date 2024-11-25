@@ -4,9 +4,12 @@ Sudoku::Sudoku(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
+    scene = new Scene();
     scene->InitPattern();
-    scene->Create();
+    scene->Create(Type::simple);
     InitUI();
+    _currentRow = -1;
+    _currentColumn = -1;
 }
 
 Sudoku::~Sudoku()
@@ -19,10 +22,21 @@ void Sudoku::Create(Type type) {
 }
 
 void Sudoku::InitUI() {
+    auto nums = scene->GetNums();
+
+    ui.eraseBtn->setIcon(QIcon(":/images/earse.png"));
+    //ui.eraseBtn->setIconSize(QSize(100, 100));
 #pragma region init cell ui
     for (int row = 0; row < _ROW_NUM; row++) {
         for (int col = 0; col < _COLUMN_NUM; col++) {
-            _btns[row][col].setText("");
+            int value = *(nums + row * _ROW_NUM + col);
+            if (value == -1) {
+                _btns[row][col].setText("");
+            }
+            else {
+                _btns[row][col].setText(QString::number(value));
+                _btns[row][col].setEnabled(false);
+            }
             _btns[row][col].setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             _btns[row][col].setStyleSheet("QPushButton {border: 1px solid rgb(81,80,76); font-size:24px;}");
             if (row % 3 == 0) {
@@ -66,7 +80,12 @@ void Sudoku::InitUI() {
             border-top: 1px solid rgb(81,80,76); 
             border-bottom: 1px solid rgb(81,80,76); 
             font-size:24px;
-        })");
+        }
+        QPushButton:hover
+        {
+            background: rgb(230, 213, 169);
+        }
+        )");
         if (i == 9) {
             QString style = "QPushButton{border-right:1px solid rgb(81,80,76)}";
             this->AddStyle(_btnNums[i], style);
@@ -109,14 +128,13 @@ void Sudoku::OnNumClicked(int num) {
     QString clickedStyle = "QPushButton{ background: rgb(230, 213, 169);}";
     QString normalStyle = "QPushButton{ background: rgb(240, 234, 222)}";
     for (int i = 0; i < 10; i++) {
-        if (i == num) {
-            this->AddStyle(_btnNums[i], clickedStyle);
-        }
-        else {
-            this->AddStyle(_btnNums[i], normalStyle);
-        }
+        this->AddStyle(_btnNums[i], normalStyle);
     }
     qDebug() << "_numSet:" << _numSet;
+
+    if (_currentRow != -1 && _currentColumn != -1) {
+        _btns[_currentRow][_currentColumn].setText(QString::number(num));
+    }
 }
 
 void Sudoku::AddStyle(QWidget& widget, const QString style) {

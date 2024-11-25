@@ -12,7 +12,7 @@ public:
 
 private:
 	int* _nums[MAX_COUNT];
-	int index = 0;
+	int _index = 0;
 };
 
 

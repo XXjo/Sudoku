@@ -4,6 +4,7 @@
 #include <string>
 #include "Block.h"
 #include "Utils.inl"
+#include "Enums.h"
 
 using namespace std;
 
@@ -15,13 +16,16 @@ public:
 	static void InitPattern();
 	Scene();
 	~Scene();
-	void Create();
+	void Create(Type type);
+	int* GetNums();
 
 private:
 	int _nums[81];
-	Block _rowBlock[MAX_COUNT];
-	Block _columnBlock[MAX_COUNT];
-	Block _cellBlock[3][3];
+	Block _rowBlocks[MAX_COUNT];
+	Block _columnBlocks[MAX_COUNT];
+	Block _cellBlocks[3][3];
+
+	void EarseNumberRamdon(int num);
 	
 };
 
