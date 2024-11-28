@@ -94,7 +94,6 @@
     <QtMoc Include="Sudoku.h" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SquareButton.cpp" />
     <ClCompile Include="Sudoku.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -102,7 +101,6 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="SquareButton.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Utils.inl" />

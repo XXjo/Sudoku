@@ -1,5 +1,4 @@
 #include "Sudoku.h"
-#include "SquareButton.h"
 
 Sudoku::Sudoku(QWidget *parent)
     : QMainWindow(parent)

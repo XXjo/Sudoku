@@ -24,6 +24,10 @@ public:
 public slots:
     void OnCellClicked(int row, int column);
     void OnNumClicked(int num);
+    void OnEraseClicked();
+
+protected:
+    void showEvent(QShowEvent* event) override;
 
 private:
     Ui::SudokuClass ui;
