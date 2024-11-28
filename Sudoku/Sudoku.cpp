@@ -1,4 +1,5 @@
 #include "Sudoku.h"
+#include "SquareButton.h"
 
 Sudoku::Sudoku(QWidget *parent)
     : QMainWindow(parent)
@@ -23,9 +24,27 @@ void Sudoku::Create(Type type) {
 
 void Sudoku::InitUI() {
     auto nums = scene->GetNums();
+    ui.centralWidget->setLayout(ui.parentLayout);
+    ui.parentLayout->setSpacing(10);
 
-    ui.eraseBtn->setIcon(QIcon(":/images/earse.png"));
-    //ui.eraseBtn->setIconSize(QSize(100, 100));
+    QGridLayout* gridLayout = new QGridLayout();
+    QHBoxLayout* horizontalLayout1 = new QHBoxLayout();
+    QHBoxLayout* horizontalLayout2 = new QHBoxLayout();
+
+    QPushButton* eraseBtn = new QPushButton();
+    eraseBtn->setIcon(QIcon(":/images/earse.png"));
+    eraseBtn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    connect(eraseBtn, &QPushButton::clicked, this, [=]() {this->OnEraseClicked(); });
+
+    gridLayout->setSpacing(0);
+    //ui.centralWidget->layout()->setContentsMargins(0, 0, 0, 0);
+    horizontalLayout1->setSpacing(0);
+    horizontalLayout2->setSpacing(0);
+    ui.parentLayout->addLayout(gridLayout, 9);
+    ui.parentLayout->addLayout(horizontalLayout1, 1);
+    ui.parentLayout->addLayout(horizontalLayout2, 1);
+    horizontalLayout1->addWidget(eraseBtn, 1);
+    horizontalLayout1->addStretch(8);
 #pragma region init cell ui
     for (int row = 0; row < _ROW_NUM; row++) {
         for (int col = 0; col < _COLUMN_NUM; col++) {
@@ -39,6 +58,8 @@ void Sudoku::InitUI() {
             }
             _btns[row][col].setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             _btns[row][col].setStyleSheet("QPushButton {border: 1px solid rgb(81,80,76); font-size:24px;}");
+            _btns[row][col].setMinimumWidth(50);
+
             if (row % 3 == 0) {
                 QString style = "QPushButton {border-top: 3px solid rgb(81, 80, 76)}";
                 this->AddStyle(_btns[row][col], style);
@@ -64,17 +85,9 @@ void Sudoku::InitUI() {
                 this->AddStyle(_btns[row][col], style);
             }
             _btnBaseStyles[row][col] = _btns[row][col].styleSheet();
-            ui.gridLayout->addWidget(&_btns[row][col], row, col);
+            gridLayout->addWidget(&_btns[row][col], row, col);
             connect(&_btns[row][col], &QPushButton::clicked, this, [=]() {this->OnCellClicked(row, col); });
         }
-    }
-
-    for (int row = 0; row < _ROW_NUM; row++) {
-        ui.gridLayout->setRowStretch(row, 1);
-    }
-
-    for (int col = 0; col < _COLUMN_NUM; col++) {
-        ui.gridLayout->setColumnStretch(col, 1);
     }
 #pragma endregion
 #pragma region init num ui
@@ -102,11 +115,12 @@ void Sudoku::InitUI() {
             QString style = "QPushButton{border-left:1px solid rgb(81,80,76)}";
             this->AddStyle(_btnNums[i], style);
         }
-        ui.horizontalLayout->addWidget(&_btnNums[i]);
+        horizontalLayout2->addWidget(&_btnNums[i]);
         connect(&_btnNums[i], &QPushButton::clicked, this, [=]() {this->OnNumClicked(i); });
     }
 
 #pragma endregion
+
 }
 
 void Sudoku::OnCellClicked(int row, int column) {
@@ -145,8 +159,27 @@ void Sudoku::OnNumClicked(int num) {
     }
 }
 
+void Sudoku::OnEraseClicked() {
+    _btns[_currentRow][_currentColumn].setText("");
+}
+
 void Sudoku::AddStyle(QWidget& widget, const QString style) {
     QString currentStyle = widget.styleSheet();
     widget.setStyleSheet(currentStyle + style);
 }
+
+void Sudoku::showEvent(QShowEvent* event)
+{
+    // 这里处理窗口显示时的逻辑
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            auto size = _btns[i][j].size();
+            qDebug() << "width:" << size.width() << "height:" << size.height();
+        }
+    }
+
+    // 调用父类的 showEvent 函数，确保事件被正确处理
+    QWidget::showEvent(event);
+}
+
 
